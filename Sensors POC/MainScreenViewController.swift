@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import CoreMotion
 
 class MainScreenViewController: UIViewController {
     lazy var bgLayer = CAGradientLayer()
+    let motionManager = CMMotionManager()
+    var timer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,7 @@ class MainScreenViewController: UIViewController {
     // MARK: - Setup
     func setup() {
         setupBackground()
+        startAccelerometerUpdates()
     }
 
     // MARK: - Background layer
@@ -35,5 +39,23 @@ class MainScreenViewController: UIViewController {
         ]
 
         view.layer.insertSublayer(bgLayer, at: 0)
+    }
+}
+
+extension MainScreenViewController {
+    func startAccelerometerUpdates() {
+//        let interval = 1 / 60.0
+        let interval = 1 / 2.0
+
+        motionManager.accelerometerUpdateInterval = interval
+        motionManager.startAccelerometerUpdates()
+
+        timer = Timer(fire: Date(), interval: interval, repeats: true) { timer in
+            if let data = self.motionManager.accelerometerData {
+                print(data)
+            }
+        }
+
+        RunLoop.current.add(self.timer!, forMode: .default)
     }
 }
