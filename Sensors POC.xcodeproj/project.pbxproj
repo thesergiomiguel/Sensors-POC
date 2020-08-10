@@ -11,6 +11,7 @@
 		4938FB0524E137FE001A389E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938FB0424E137FE001A389E /* SceneDelegate.swift */; };
 		4938FB0C24E137FF001A389E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4938FB0B24E137FF001A389E /* Assets.xcassets */; };
 		4938FB0F24E137FF001A389E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4938FB0D24E137FF001A389E /* LaunchScreen.storyboard */; };
+		4938FB1724E13931001A389E /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938FB1624E13931001A389E /* MainScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		4938FB0B24E137FF001A389E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4938FB0E24E137FF001A389E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4938FB1024E137FF001A389E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4938FB1624E13931001A389E /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				4938FB0B24E137FF001A389E /* Assets.xcassets */,
 				4938FB0D24E137FF001A389E /* LaunchScreen.storyboard */,
 				4938FB1024E137FF001A389E /* Info.plist */,
+				4938FB1624E13931001A389E /* MainScreenViewController.swift */,
 			);
 			path = "Sensors POC";
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				4938FB0324E137FE001A389E /* AppDelegate.swift in Sources */,
 				4938FB0524E137FE001A389E /* SceneDelegate.swift in Sources */,
+				4938FB1724E13931001A389E /* MainScreenViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
