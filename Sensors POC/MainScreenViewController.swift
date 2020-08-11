@@ -69,28 +69,29 @@ class MainScreenViewController: UIViewController {
         isRecording.toggle()
 
         if isRecording {
-            startAccelerometerRecording()
+            startTracking()
             button.setImage(stopImage, for: .normal)
 
             return
         }
 
-        stopAccelerometerRecording()
+        stopTracking()
         button.setImage(recordImage, for: .normal)
     }
 }
 
 // MARK: - Accelerometer control
 extension MainScreenViewController {
-    func startAccelerometerRecording() {
+    func startTracking() {
 //        let interval = 1 / 60.0
         let interval = 1 / 2.0
 
-        motionManager.accelerometerUpdateInterval = interval
-        motionManager.startAccelerometerUpdates()
+        motionManager.deviceMotionUpdateInterval = interval
+        motionManager.showsDeviceMovementDisplay = true
+        motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
 
         timer = Timer(fire: Date(), interval: interval, repeats: true) { timer in
-            if let data = self.motionManager.accelerometerData {
+            if let data = self.motionManager.deviceMotion {
                 print(data)
             }
         }
@@ -98,8 +99,8 @@ extension MainScreenViewController {
         RunLoop.current.add(self.timer!, forMode: .default)
     }
 
-    func stopAccelerometerRecording() {
-        motionManager.stopAccelerometerUpdates()
+    func stopTracking() {
+        motionManager.stopDeviceMotionUpdates()
 
         timer?.invalidate()
         timer = nil
