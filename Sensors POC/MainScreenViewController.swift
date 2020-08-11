@@ -11,8 +11,14 @@ import CoreMotion
 
 class MainScreenViewController: UIViewController {
     lazy var bgLayer = CAGradientLayer()
+    lazy var button = UIButton()
+    lazy var recordImage = UIImage(systemName: "circle.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+    lazy var stopImage = UIImage(systemName: "stop.fill")
+
     let motionManager = CMMotionManager()
+
     var timer: Timer?
+    var isRecording = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +33,7 @@ class MainScreenViewController: UIViewController {
     // MARK: - Setup
     func setup() {
         setupBackground()
-        startAccelerometerUpdates()
+        setupButton()
     }
 
     // MARK: - Background layer
@@ -40,8 +46,41 @@ class MainScreenViewController: UIViewController {
 
         view.layer.insertSublayer(bgLayer, at: 0)
     }
+
+    func setupButton() {
+        button.setImage(recordImage, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 30
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+
+        view.addSubview(button)
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            button.heightAnchor.constraint(equalToConstant: 60),
+            button.widthAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+
+    @objc func buttonPressed() {
+        isRecording.toggle()
+
+        if isRecording {
+            startAccelerometerUpdates()
+            button.setImage(stopImage, for: .normal)
+
+            return
+        }
+
+        stopAccelerometerUpdates()
+        button.setImage(recordImage, for: .normal)
+    }
 }
 
+// MARK: - Accelerometer control
 extension MainScreenViewController {
     func startAccelerometerUpdates() {
 //        let interval = 1 / 60.0
@@ -57,5 +96,10 @@ extension MainScreenViewController {
         }
 
         RunLoop.current.add(self.timer!, forMode: .default)
+    }
+
+    func stopAccelerometerUpdates() {
+        timer?.invalidate()
+        timer = nil
     }
 }
