@@ -69,20 +69,20 @@ class MainScreenViewController: UIViewController {
         isRecording.toggle()
 
         if isRecording {
-            startAccelerometerUpdates()
+            startAccelerometerRecording()
             button.setImage(stopImage, for: .normal)
 
             return
         }
 
-        stopAccelerometerUpdates()
+        stopAccelerometerRecording()
         button.setImage(recordImage, for: .normal)
     }
 }
 
 // MARK: - Accelerometer control
 extension MainScreenViewController {
-    func startAccelerometerUpdates() {
+    func startAccelerometerRecording() {
 //        let interval = 1 / 60.0
         let interval = 1 / 2.0
 
@@ -98,7 +98,9 @@ extension MainScreenViewController {
         RunLoop.current.add(self.timer!, forMode: .default)
     }
 
-    func stopAccelerometerUpdates() {
+    func stopAccelerometerRecording() {
+        motionManager.stopAccelerometerUpdates()
+
         timer?.invalidate()
         timer = nil
     }
