@@ -18,6 +18,7 @@ class MainScreenViewController: UIViewController {
     let motionManager = CMMotionManager()
 
     var timer: Timer?
+    var referenceAttitude: CMAttitude?
     var isRecording = false
 
     override func viewDidLoad() {
@@ -83,16 +84,33 @@ class MainScreenViewController: UIViewController {
 // MARK: - Accelerometer control
 extension MainScreenViewController {
     func startTracking() {
+
 //        let interval = 1 / 60.0
         let interval = 1 / 2.0
 
         motionManager.deviceMotionUpdateInterval = interval
         motionManager.showsDeviceMovementDisplay = true
-        motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+        motionManager.startDeviceMotionUpdates(using: .xArbitraryZVertical)
 
         timer = Timer(fire: Date(), interval: interval, repeats: true) { timer in
             if let data = self.motionManager.deviceMotion {
-                print(data)
+                if self.referenceAttitude == nil {
+                    self.referenceAttitude = data.attitude
+
+                    print("Reference attitude has been set to \(String(describing: self.referenceAttitude))")
+
+                    return
+                }
+
+                data.attitude.multiply(byInverseOf: self.referenceAttitude!)
+
+//                let x = self.degrees(data.attitude.pitch)
+                let y = self.degrees(data.attitude.roll)
+                let z = self.degrees(data.attitude.yaw)
+
+//                print("pitch is \(attitude.pitch), roll is \(attitude.roll), and yaw is \(attitude.yaw)")
+//                print("x: \(x); y: \(y); z: \(z)")
+                print("y: \(y); z: \(z)")
             }
         }
 
@@ -102,7 +120,13 @@ extension MainScreenViewController {
     func stopTracking() {
         motionManager.stopDeviceMotionUpdates()
 
+        referenceAttitude = nil
+
         timer?.invalidate()
         timer = nil
+    }
+
+    func degrees(_ radians: Double) -> Double {
+        return 180 / Double.pi * radians;
     }
 }
